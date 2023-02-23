@@ -1,0 +1,192 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap'); */
+
+:root {
+    --colorShadeY: #ffd700;
+    --colorShadeB: #0057b7;
+}
+
+#content_container {
+    width: 50%;
+    height: 100%;
+    margin: auto;
+    background-color: #23232be1;
+    border-top: 5px solid #d3f3f3;
+    padding: 10px;
+    box-sizing: border-box;
+    z-index: -10;
+    border-top-left-radius: 20%;
+    border-top-right-radius: 20%;
+
+    visibility: hidden;
+    animation: fadeInAnimation ease 1s;
+    animation-delay: 0.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+#content_container table {
+    margin: auto;
+    max-width: 100%;
+    visibility: hidden;
+    animation: fadeInAnimation ease 1s;
+    animation-delay: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.wideGameBox {
+    position: relative;
+    height: 200px;
+    padding: 10px;
+    box-sizing: content-box;
+    z-index: 0;
+}
+
+.wideGameBox img {
+    max-height: 100px;
+    display: inline;
+    padding: 5px;
+    border-radius: 30%;
+}
+
+.gameBox {
+    position: relative;
+    max-width: 182px;
+    margin: 10px;
+    padding: 10px;
+    box-sizing: content-box;
+    /* border: 1px solid green ; */
+
+}
+
+#gameImg {
+    bottom: 0;
+    max-width: 100%;
+    margin: auto;
+    border-radius: 20%;
+    border-left: 5px solid var(--colorShadeY);
+    border-top: 5px solid var(--colorShadeY);
+
+}
+
+#gameName {
+    position: absolute;
+    bottom: 5%;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    color: var(--colorShadeY);
+    background-color: var(--colorShadeB);
+    font-size: x-large;
+    font-weight: bolder;
+}
+
+#gameImg:hover {
+    animation-name: ImgHover;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes ImgHover {
+    0% {
+        border-color: red;
+    }
+
+    50% {
+        border-color: green;
+    }
+
+    75% {
+        border-color: blue;
+    }
+
+    100% {
+        border-color: yellow;
+        /* top: 5px;
+        left: 5px; */
+    }
+}
+
+
+
+#helpLeftPannle {
+    position: absolute;
+    height: 2615px;
+    margin: auto;
+    left: 20px;
+    top: 7px;
+
+    visibility: hidden;
+    animation: slideInAnimation ease 1s;
+    animation-delay: 0.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+#leftPannle {
+    position: sticky;
+    top: 0;
+    height: 500px;
+    width: 280px;
+    /* border-right: 10px solid #ff6347; */
+    border-left: 10px solid var(--colorShadeY);
+    background-color: var(--colorShadeB);
+    font-size: larger;
+    font-weight: 900;
+    color: var(--colorShadeY);
+    border-radius: 10%;
+}
+
+#leftPannleTitle {
+    position: relative;
+    display: flex;
+    background-color: tomato;
+    color: var(--colorShadeB);
+    font-weight: bolder;
+    border-top-left-radius: 25px;
+
+}
+
+ul li a:link {
+    color: var(--colorShadeY);
+}
+
+ul li a:hover {
+    color: #d3f3f3;
+}
+
+ul a:visited {
+    color: var(--colorShadeY);
+}
+
+
+#more {
+    position: relative;
+    top: 45px;
+    display: block;
+    float: right;
+    border-radius: 20%;
+    font-weight: 900;
+    font-size: larger;
+}
+
+#more a {
+    color: var(--colorShadeY);
+    text-decoration: none;
+}
+
+#more a:visited {
+    color: var(--colorShadeY);
+    text-decoration: none;
+}
+
+#more a:hover {
+    color: #d3f3f3;
+}
+
+.anchor {
+    position: absolute;
+    height: 115px;
+    margin-top: -115px;
+    visibility: hidden;
+}

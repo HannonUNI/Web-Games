@@ -1,0 +1,58 @@
+<html>
+
+<head>
+    <script src="https://kit.fontawesome.com/e6920e6a27.js" crossorigin="anonymous"></script>
+    <title>Mine Sweeper</title>
+    <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="../CSS/MineSweeper.css">
+    <script src="../JS/MineSweeperController.js"></script>
+</head>
+
+<body onload="init()">
+    <div id="navBar">
+        <span class="fa-stack fa-2x" id="logo">
+            <i class="fa-solid fa-gamepad fa-stack-2x" style="color: #0057b7;"></i>
+            <i class="fa-solid fa-fire-flame-curved fa-stack-1x fa-bounce" style="color: #ffd700;"></i>
+        </span>
+        <div id="links">
+            <a href="home.html">Home - Games</a>
+        </div>
+    </div>
+
+    <div id="rainbg"></div>
+
+    <h2 id="title">Help Ukraine by sweeping this field of Russians mines</h2>
+    <div id="loseOverlayDiv" class="overlay">
+        <img src="../media/lose.gif" class="endGif">
+        <h1 style="padding: 10px;">LOOOSERRRRR</h1>
+    </div>
+
+    <div id="winOverlayDiv" class="overlay">
+        <img src="../media/win.gif" class="endGif">
+        <h1 style="padding: 10px;">HEEY PRETTY GOOD!!</h1>
+    </div>
+
+    <div id="options">
+        <select class="btn" name="difficulty" id="difficulty">
+            <option value="Easy">9*9 Easy</option>
+            <option value="Medium">19*15 Medium</option>
+            <option value="Hard">27*20 Hard</option>
+            <option value="Insane">37*26 Insane</option>
+        </select>
+        <button class="btn" type="button" id="newGame" onclick="init()">new game</button>
+    </div>
+
+
+    <div id='field'>
+    </div>
+
+    <div id="extendor">
+    </div>
+
+    <div id="footer">
+        <p>Thank you for checking out my website</p>
+        <p>you can contact me by:</p>
+        Email: <a href="mailto:hannon.uni@gmail.com">Mohammad Abu Qaoud, hannon.uni@gmail.com</a><br>
+    </div>
+
+</body>

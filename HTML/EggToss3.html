@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egg Toss</title>
+    <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="../CSS/EggToss.css">
+</head>
+
+<body onload="startGame()">
+    <h1>Egg Delivery</h1>
+    <div id="options">
+        <select class="btn" name="difficulty" id="difficulty">
+            <option value="1">Easy</option>
+            <option value="2">Medium</option>
+            <option value="3">Hard</option>
+        </select>
+        <button class="btn" type="button" id="newGame" onclick="init()">new game</button>
+    </div>
+
+
+    <div id="flash">
+        <div id="jungle"></div>
+        <div id="menu_bar">
+
+            <table>
+                <tr>
+                    <td>
+                        <div id="cheats" class="menuItem">Cheats</div>
+                    </td>
+                    <td>
+                        <div id="score_value">Score: 0</div>
+                    </td>
+                    <td>
+                        <div id="cheatBox">🥚Jump!</div>
+                    </td>
+                </tr>
+            </table>
+            <div id="score" class="menuItem"></div>
+        </div>
+        <div id="cheats_menu">
+            <input type="checkbox" id="cheat1">
+            <label for="cheat1">Calculate Timing</label>
+            <br>
+            <input type="checkbox" id="cheat2" >
+            <label for="cheat2">Auto Jump</label>
+        </div>
+    </div>
+    <script src="../JS/EggTossController3.js"></script>
+
+</body>
+
+</html>

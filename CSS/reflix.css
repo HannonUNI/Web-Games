@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+body {
+    background-color: #201c1c;
+    color: #d3f3f3;
+    background-image: url('../media/rainBG2.svg');
+    font-family: 'Indie Flower', cursive;
+}
+
+#gameArea {
+    float: right;
+    margin-right: 25%;
+    cursor: crosshair;
+    background-color: #302b61;
+    border: 2px solid lightgreen;
+    height: 500px;
+    width: 50%;
+    color: lightgreen;
+    text-align: center;
+    font-size: large;
+    margin-top: 20px;
+
+    
+    visibility: hidden;
+    animation: fadeInAnimation ease 1s;
+    animation-delay: 0.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+
+#record-container {
+    float: left;
+    margin-left: 1%;
+    width: 300px;
+    height: 500px;
+    background-color: #201c1ce9;
+
+    
+    visibility: hidden;
+    animation: slideInAnimation ease 1s;
+    animation-delay: 0.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+#footer {
+    bottom: 0;
+}
+
+@media screen and (max-width:1345px) {
+    #gameArea {
+        width: 49%;
+    }
+}
+
+@media screen and (max-width:1230px) {
+    #gameArea {
+        margin-right: 20px;
+        width: 60%;
+    }
+}
+
+@media screen and (max-width:865px) {
+    
+    #gameArea {
+        height: 400px;
+        margin-right: 0;
+        width: 100%;
+    }
+    #record-container {
+        width: 100%;
+    }
+
+    #footer {
+       display: none;
+    }
+}

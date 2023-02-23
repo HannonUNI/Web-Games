@@ -1,0 +1,93 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap'); */
+
+body {
+    background-color: #201c1c;
+    color: #d3f3f3;
+    background-image: url('../media/rainBG2.svg');
+    /* font-family: 'Indie Flower', cursive; */
+    font-family: 'Segoe UI';
+
+}
+
+#jungle {
+    position: relative;
+    margin: auto;
+    height: 570px;
+    width: 412px;
+    /* display: none; */
+    /* background-color: #305030de; */
+}
+
+#flash{
+    position: relative;
+    margin: auto;
+    height: 555px;
+    padding-top: 69px;
+    padding-left:5px;
+    width: 405px;
+    background-image: url('../media/egg toss/flash.png');
+    background-size: 100% 100%;
+    color:black;
+
+}
+
+#egg {
+    position: absolute;
+    bottom: 10px;
+    padding: 10px;
+    width: 60px;
+    margin-left: 40%;
+}
+
+canvas {
+    /* border:1px solid #d3d3d3; */
+    background-image: url('../media/egg toss/jungle.png');
+    background-size: 100% 100%;
+}
+#menu_bar {
+    position: absolute;
+    top: 42px;
+    height: 26px;
+    width: 400px;
+    /* outline: 1px solid #ff0000; */
+    background-color: #ece9d8;
+    user-select: none;
+    font-weight: 500;
+}
+.menuItem{
+    /* width: 45px; */
+    height: 23px;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+#cheats:hover {
+    color:white;
+    background-color: #316ac5;
+}
+
+#cheats_menu {
+    position: absolute;
+    top: 70px;
+    left: 6px;
+    height: 50px;
+    width: 170px;
+    background-color: white;
+    outline: 1px solid #a9a59c;
+    user-select: none;
+    font-weight: 500;
+    cursor: pointer;
+    display: none;
+}
+#cheats_menu label{
+    margin-top: 10px;
+    
+    /* width: 100%; */
+}
+#cheats_menu label:hover{
+    background-color: #316ac5;
+    color:white;
+}
+#cheatBox{
+    display: none;
+}
