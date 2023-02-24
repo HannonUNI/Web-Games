@@ -91,3 +91,14 @@ canvas {
 #cheatBox{
     display: none;
 }
+#gameOver{
+    position: absolute;
+    top: 275px;
+    left: 100px;
+    width: 300px;
+    height: 200px;
+    background-image: url('../media/egg toss/gameOver.png');
+    background-repeat: no-repeat;
+    outline: 1px solid red;
+    display: none;
+}

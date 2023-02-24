@@ -159,9 +159,7 @@ function egg(x, y) {
 
                     } else if (this.y > currentNestMaxY) {
                         this.gameOver = true
-                        dieSound.play()
-                        document.getElementById("final_value").innerHTML = "Score: " + score
-                        // document.getElementById("game_over").style.display = "block"
+                        doGameOver()
                     }
 
                 }
@@ -171,7 +169,29 @@ function egg(x, y) {
         }
     }
 }
-
+function doGameOver() {
+    dieSound.play()
+    // document.getElementById("finalScore").innerHTML = "Score: " + score
+    overPanel = document.getElementById("gameOver")
+    score = 0
+    overPanel.style.display = "block"
+    overPanel.addEventListener("click", function (e) {
+        // how to get mouse click position
+        var x = e.clientX;
+        var y = e.clientY;
+        console.log(x);
+        console.log(y);
+        // top left = 375,482
+        // top right = 488,482 
+        // bottom left = 376,500
+        // bottom right = 487,501
+        if (x >= 375 && x <= 488 && y <= 500 && y <= 501) {
+            overPanel.display = "none"
+            myGameArea.clean()
+            myGameArea.start()
+        }
+    })
+}
 function nest(y, isMove) {
     this.width = 80
     this.height = 40
