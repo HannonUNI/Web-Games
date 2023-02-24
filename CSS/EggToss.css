@@ -14,8 +14,6 @@ body {
     margin: auto;
     height: 570px;
     width: 412px;
-    /* display: none; */
-    /* background-color: #305030de; */
 }
 
 #flash{
@@ -81,8 +79,6 @@ canvas {
 }
 #cheats_menu label{
     margin-top: 10px;
-    
-    /* width: 100%; */
 }
 #cheats_menu label:hover{
     background-color: #316ac5;
@@ -95,10 +91,13 @@ canvas {
     position: absolute;
     top: 275px;
     left: 100px;
-    width: 300px;
-    height: 200px;
+    width: 230px;
+    height: 150px;
     background-image: url('../media/egg toss/gameOver.png');
     background-repeat: no-repeat;
+    /*how to allow backgroud to bleed out of the box */
+    /* background-size: 100% 100%; */
+    
     outline: 1px solid red;
     display: none;
 }

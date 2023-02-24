@@ -11,21 +11,14 @@
 </head>
 
 <body onload="startGame()">
-    <h1>Egg Delivery</h1>
-    <div id="options">
-        <select class="btn" name="difficulty" id="difficulty">
-            <option value="1">Easy</option>
-            <option value="2">Medium</option>
-            <option value="3">Hard</option>
-        </select>
-        <button class="btn" type="button" id="newGame" onclick="init()">new game</button>
+    <h1>The Amazing Dare Dozen OR Egg Toss</h1>
+    <button class="btn" type="button" id="newGame" onclick="doGameOver()">New Game</button>
     </div>
 
 
     <div id="flash">
         <div id="jungle"></div>
         <div id="menu_bar">
-
             <table>
                 <tr>
                     <td>
@@ -45,7 +38,7 @@
             <input type="checkbox" id="cheat1">
             <label for="cheat1">Calculate Timing</label>
             <br>
-            <input type="checkbox" id="cheat2" >
+            <input type="checkbox" id="cheat2">
             <label for="cheat2">Auto Jump</label>
         </div>
         <div id="gameOver">

@@ -16,10 +16,13 @@ var cheat1bool = false
 var cheat2bool = false
 var cheatBox = document.getElementById("cheatBox")
 var keyboardEvent = document.createEvent('KeyboardEvent');
-
+var gameInterval
 
 function startGame() {
     // nest(width, height, x, y, isMove)
+    currentNest = null
+    nextNest = null
+    myEgg = null
 
     jumpSound = document.createElement("audio");
     jumpSound.src = "../media/egg toss/jump.flac";
@@ -27,7 +30,6 @@ function startGame() {
     jumpSound.setAttribute("controls", "none");
     jumpSound.style.display = "none";
     document.body.appendChild(jumpSound);
-
     dieSound = document.createElement("audio");
     dieSound.src = "../media/egg toss/die.flac";
     dieSound.setAttribute("preload", "auto");
@@ -38,12 +40,9 @@ function startGame() {
     currentNest = new nest(currentNestMaxY, true)
     myEgg = new egg(currentNest.x + 10, currentNest.y - 30)
     nextNest = new nest(nextNestMaxY, true)
-
     myGameArea.start()
-
-
 }
-// nextNestMaxY - currentNestMaxY = -310
+
 var myGameArea = {
     canvas: document.createElement("canvas"),
     start: function () {
@@ -51,8 +50,7 @@ var myGameArea = {
         this.canvas.height = 550
         this.context = this.canvas.getContext("2d")
         document.getElementById("jungle").appendChild(this.canvas)
-        this.interval = setInterval(updateGameArea, 20)
-        // add a background image
+        gameInterval = this.interval = setInterval(updateGameArea, 20)
     },
     clear: function () {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -67,6 +65,8 @@ function updateGameArea() {
         cheat1()
     if (cheat2bool == true)
         autoJump()
+    if (myEgg.gameOver)
+        return
 }
 function cheat1() {
     if (myEgg.isAttach) {
@@ -94,28 +94,51 @@ function autoJump() {
         speed = nextNest.speed
         time = distance / speed
 
-        if ((!nextNest.isMoveRight && time > 45 && time < 55) || (nextNest.isMoveRight && time < -45 && time > -55)) {
-            // myEgg.jump = true
-            // myEgg.isAttach = false
+        if ((!nextNest.isMoveRight && time > 45 && time < 55) || (nextNest.isMoveRight && time < -45 && time > -55))
+            document.dispatchEvent(new KeyboardEvent('keydown', { 'key': ' ' }));
+        else if (nextNest.isMove == false && myEgg.x + 22.5 >= nextNest.x + 15 + 5 && myEgg.x + 22.5 <= nextNest.x + nextNest.width - 15)
+            document.dispatchEvent(new KeyboardEvent('keydown', { 'key': ' ' }));
+        else if (nextNest.isMove == true && currentNest.isMove && nextNest.x + nextNest.width > maxRight && myEgg.x + myEgg.width > maxRight)
             document.dispatchEvent(new KeyboardEvent('keydown', { 'key': ' ' }));
 
-        }
-        else if (nextNest.isMove == false && myEgg.x + 22.5 >= nextNest.x + 15 + 5 && myEgg.x + 22.5 <= nextNest.x + nextNest.width - 15) {
-            document.dispatchEvent(new KeyboardEvent('keydown', { 'key': ' ' }));
-
-            // myEgg.jump = true
-            // myEgg.isAttach = false
-        }
-        else if (nextNest.isMove == true && currentNest.isMove && nextNest.x + nextNest.width > maxRight - 90 && myEgg.x + myEgg.width > maxRight - 90) {
-            document.dispatchEvent(new KeyboardEvent('keydown', { 'key': ' ' }));
-
-            // myEgg.jump = true
-            // myEgg.isAttach = false
-        }
 
     }
 }
+async function doGameOver() {
+    dieSound.play()
+    await clearInterval(gameInterval);
+    myEgg.gameOver = true
+    
+    
+    currentNest = null
+    nextNest = null
+    myEgg = null
 
+
+    openHelpBool = false
+    maxSpeed = 5
+    minSpeed = 3
+    probability = 0.6
+    score = 0
+    // cheat1bool = false
+    // cheat2bool = false
+    cheatBox = document.getElementById("cheatBox")
+    keyboardEvent = document.createEvent('KeyboardEvent');
+
+
+
+    overPanel = document.getElementById("gameOver")
+    overPanel.style.display = "block"
+    first = true
+    overPanel.addEventListener("click", function (e) {
+        clearInterval(gameInterval);
+        first = true
+
+        overPanel.style.display = "none"
+        myGameArea.clear()
+        startGame()
+    })
+}
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
@@ -131,7 +154,7 @@ function egg(x, y) {
     this.gameOver = false
     this.yVelocity = 19
 
-    this.update = function () {
+    this.update = async function () {
         ctx = myGameArea.context
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
         if (this.isAttach) {
@@ -146,7 +169,7 @@ function egg(x, y) {
                     this.yVelocity -= 0.5
                 } else {
                     this.y -= this.yVelocity
-                    this.yVelocity -= 0.4
+                    this.yVelocity -= 0.6
                     if (this.y + 50 <= nextNest.y + nextNest.height - 5 && this.y + 50 >= nextNest.y + nextNest.height - 20 && this.x + 22.5 >= nextNest.x + 12 + 5 && this.x + 22.5 <= nextNest.x + nextNest.width - 12) {
                         this.jump = false
                         this.isAttach = true
@@ -159,9 +182,8 @@ function egg(x, y) {
 
                     } else if (this.y > currentNestMaxY) {
                         this.gameOver = true
-                        doGameOver()
+                        await doGameOver()
                     }
-
                 }
             } else {
                 // game over
@@ -169,29 +191,7 @@ function egg(x, y) {
         }
     }
 }
-function doGameOver() {
-    dieSound.play()
-    // document.getElementById("finalScore").innerHTML = "Score: " + score
-    overPanel = document.getElementById("gameOver")
-    score = 0
-    overPanel.style.display = "block"
-    overPanel.addEventListener("click", function (e) {
-        // how to get mouse click position
-        var x = e.clientX;
-        var y = e.clientY;
-        console.log(x);
-        console.log(y);
-        // top left = 375,482
-        // top right = 488,482 
-        // bottom left = 376,500
-        // bottom right = 487,501
-        if (x >= 375 && x <= 488 && y <= 500 && y <= 501) {
-            overPanel.display = "none"
-            myGameArea.clean()
-            myGameArea.start()
-        }
-    })
-}
+
 function nest(y, isMove) {
     this.width = 80
     this.height = 40
@@ -202,40 +202,30 @@ function nest(y, isMove) {
     this.image = new Image()
     this.image.src = "../media/egg toss/nest.png"
     this.moveDown = false
-    this.i = 0
+    this.i = 0 // i hate this variable idk what to name it and i cant think of a way to get rid of it fk u kindly 😊
     this.speed = 0
-    // currentNest
-    // nextNest
     if (!first)
         if (this.isMove == true)
-            if (currentNest.isMove == true) {
-                roro = Math.random()
-                this.isMove = roro >= probability
-                console.log(roro);
-            }
+            if (currentNest.isMove == true)
+                this.isMove = Math.random() >= probability
     first = false
-
-    if (this.isMove == true) {
+    if (this.isMove == true)
         this.speed = randomInt(maxSpeed, minSpeed) / 2
-    }
     this.update = function () {
         ctx = myGameArea.context
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
         if (this.isMove == true && this.moveDown == false) {
             if (this.isMoveRight == true) {
                 this.x += this.speed
-                if (this.x >= maxRight) {
+                if (this.x >= maxRight)
                     this.isMoveRight = false
-                }
             }
             else {
                 this.x -= this.speed
-                if (this.x <= maxLeft) {
+                if (this.x <= maxLeft)
                     this.isMoveRight = true
-                }
             }
-        } else if (this.moveDown == true) {
-
+        } else if (this.moveDown == true)
             if (this.i <= nextNestMaxY - newNestStartY) {
                 this.y += 8
                 this.i += 8
@@ -243,8 +233,6 @@ function nest(y, isMove) {
                 this.i = 0
                 this.moveDown = false
             }
-        }
-
     }
 }
 
@@ -259,8 +247,8 @@ document.addEventListener("keydown", function (event) {
             maxSpeed += 0.3
         if (minSpeed < 8)
             minSpeed += 0.2
-        if (probability > 0.1)
-            probability += 0.1
+        if (probability >= 0.1)
+            probability -= 0.02
     }
 })
 
@@ -279,7 +267,6 @@ document.getElementById("cheats").addEventListener("click", function () {
 // if i hover out of menu then close it
 document.getElementById("cheats_menu").addEventListener("mouseleave", function () {
 
-
     if (document.getElementById("cheat1").checked) {
         cheat1bool = true
         document.getElementById("cheatBox").style.display = "block"
@@ -288,11 +275,10 @@ document.getElementById("cheats_menu").addEventListener("mouseleave", function (
         document.getElementById("cheatBox").style.display = "none"
     }
 
-    if (document.getElementById("cheat2").checked) {
+    if (document.getElementById("cheat2").checked)
         cheat2bool = true
-    } else {
+    else
         cheat2bool = false
-    }
 
     openHelpBool = !openHelpBool
     document.getElementById("cheats_menu").style.display = "none"
