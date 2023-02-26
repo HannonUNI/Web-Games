@@ -50,12 +50,15 @@ var myGameArea = {
         this.canvas.height = 550
         this.context = this.canvas.getContext("2d")
         document.getElementById("jungle").appendChild(this.canvas)
-        gameInterval = this.interval = setInterval(updateGameArea, 20)
+        // gameInterval = this.interval = setInterval(updateGameArea, 20)
+        updateGameArea()
     },
     clear: function () {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
 }
+
+
 function updateGameArea() {
     myGameArea.clear()
     myEgg.update()
@@ -67,6 +70,8 @@ function updateGameArea() {
         autoJump()
     if (myEgg.gameOver)
         return
+    requestAnimationFrame(updateGameArea);
+
 }
 function cheat1() {
     if (myEgg.isAttach) {
