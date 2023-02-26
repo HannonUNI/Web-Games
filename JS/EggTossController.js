@@ -12,31 +12,32 @@ var maxSpeed = 5
 var minSpeed = 3
 var probability = 0.6
 var score = 0
+var gameOver = false
 var cheat1bool = false
 var cheat2bool = false
 var cheatBox = document.getElementById("cheatBox")
 var keyboardEvent = document.createEvent('KeyboardEvent');
-var gameInterval
-
+jumpSound = document.createElement("audio");
+jumpSound.src = "../media/egg toss/jump.flac";
+jumpSound.setAttribute("preload", "auto");
+jumpSound.setAttribute("controls", "none");
+jumpSound.style.display = "none";
+document.body.appendChild(jumpSound);
+dieSound = document.createElement("audio");
+dieSound.src = "../media/egg toss/die.flac";
+dieSound.setAttribute("preload", "auto");
+dieSound.setAttribute("controls", "none");
+dieSound.style.display = "none";
+document.body.appendChild(dieSound);
+var animationFrame
 function startGame() {
     // nest(width, height, x, y, isMove)
     currentNest = null
     nextNest = null
     myEgg = null
 
-    jumpSound = document.createElement("audio");
-    jumpSound.src = "../media/egg toss/jump.flac";
-    jumpSound.setAttribute("preload", "auto");
-    jumpSound.setAttribute("controls", "none");
-    jumpSound.style.display = "none";
-    document.body.appendChild(jumpSound);
-    dieSound = document.createElement("audio");
-    dieSound.src = "../media/egg toss/die.flac";
-    dieSound.setAttribute("preload", "auto");
-    dieSound.setAttribute("controls", "none");
-    dieSound.style.display = "none";
-    document.body.appendChild(dieSound);
 
+    gameOver = false
     currentNest = new nest(currentNestMaxY, true)
     myEgg = new egg(currentNest.x + 10, currentNest.y - 30)
     nextNest = new nest(nextNestMaxY, true)
@@ -50,7 +51,6 @@ var myGameArea = {
         this.canvas.height = 550
         this.context = this.canvas.getContext("2d")
         document.getElementById("jungle").appendChild(this.canvas)
-        // gameInterval = this.interval = setInterval(updateGameArea, 20)
         updateGameArea()
     },
     clear: function () {
@@ -60,6 +60,8 @@ var myGameArea = {
 
 
 function updateGameArea() {
+    if (gameOver)
+        return
     myGameArea.clear()
     myEgg.update()
     currentNest.update()
@@ -68,9 +70,8 @@ function updateGameArea() {
         cheat1()
     if (cheat2bool == true)
         autoJump()
-    if (myEgg.gameOver)
-        return
-    requestAnimationFrame(updateGameArea);
+
+    animationFrame = requestAnimationFrame(updateGameArea);
 
 }
 function cheat1() {
@@ -104,15 +105,12 @@ function autoJump() {
 }
 async function doGameOver() {
     dieSound.play()
-    await clearInterval(gameInterval);
-    myEgg.gameOver = true
-
+    gameOver = true
+    cancelAnimationFrame(animationFrame);
 
     currentNest = null
     nextNest = null
     myEgg = null
-
-
     openHelpBool = false
     maxSpeed = 5
     minSpeed = 3
@@ -129,7 +127,7 @@ async function doGameOver() {
     overPanel.style.display = "block"
     first = true
     overPanel.addEventListener("click", function (e) {
-        clearInterval(gameInterval);
+        cancelAnimationFrame(animationFrame);
         first = true
 
         overPanel.style.display = "none"
@@ -149,7 +147,6 @@ function egg(x, y) {
     this.image.src = "../media/egg toss/egg.png"
     this.isAttach = true
     this.jump = false
-    this.gameOver = false
     this.yVelocity = 19
 
     this.update = async function () {
@@ -161,7 +158,7 @@ function egg(x, y) {
         }
 
         if (this.jump) {
-            if (!this.gameOver) {
+            if (!gameOver) {
                 if (this.yVelocity > 0) {
                     this.y -= this.yVelocity
                     this.yVelocity -= 0.5
@@ -179,7 +176,7 @@ function egg(x, y) {
                         document.getElementById("score_value").innerHTML = "Score: " + ++score
 
                     } else if (this.y > currentNestMaxY) {
-                        this.gameOver = true
+                        gameOver = true
                         await doGameOver()
                     }
                 }
@@ -236,7 +233,10 @@ function nest(y, isMove) {
 
 document.addEventListener("keydown", function (event) {
     // how to play audio in js
-    if (event.key == " " && myEgg.isAttach == true && myEgg.jump == false && myEgg.gameOver == false && currentNest.moveDown == false) {
+
+    if (event.key == " " && gameOver == false && myEgg.isAttach == true && myEgg.jump == false && currentNest.moveDown == false) {
+        event.preventDefault()
+
         jumpSound.play();
 
         myEgg.isAttach = false
@@ -263,8 +263,7 @@ document.getElementById("cheats").addEventListener("click", function () {
 
 })
 // if i hover out of menu then close it
-document.getElementById("cheats_menu").addEventListener("mouseleave", function () {
-
+document.getElementById("cheats_menu").addEventListener("mouseleave", function (e) {
     if (document.getElementById("cheat1").checked) {
         cheat1bool = true
         document.getElementById("cheatBox").style.display = "block"
