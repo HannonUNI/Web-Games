@@ -70,14 +70,10 @@ function updateGameArea() {
 }
 function cheat1() {
     if (myEgg.isAttach) {
-        EggXPoss = myEgg.x
+        xDistance = nextNest.x - myEgg.x
+        time = xDistance / nextNest.speed
 
-        NestXPoss = nextNest.x
-        distance = NestXPoss - EggXPoss
-        speed = nextNest.speed
-        time = distance / speed
-
-        if (time > 50 && time < 60 || time < -50 && time > -60)
+        if (time > 40 && time < 60 || time < -50 && time > -70)
             cheatBox.innerHTML = "🥚Jump!"
         else if (nextNest.isMove == false && currentNest.isMove && myEgg.x + 22.5 >= nextNest.x + 12 + 5 && myEgg.x + 22.5 <= nextNest.x + nextNest.width - 12)
             cheatBox.innerHTML = "🥚Jump!"
@@ -87,14 +83,11 @@ function cheat1() {
 }
 function autoJump() {
     if (!myEgg.jump && myEgg.isAttach) {
-        EggXPoss = myEgg.x
 
-        NestXPoss = nextNest.x
-        distance = NestXPoss - EggXPoss
-        speed = nextNest.speed
-        time = distance / speed
+        distance = nextNest.x - myEgg.x
+        time = distance / nextNest.speed
 
-        if ((!nextNest.isMoveRight && time > 45 && time < 55) || (nextNest.isMoveRight && time < -45 && time > -55))
+        if ((!nextNest.isMoveRight && time > 40 && time < 50) || (nextNest.isMoveRight && time < -50 && time > -60))
             document.dispatchEvent(new KeyboardEvent('keydown', { 'key': ' ' }));
         else if (nextNest.isMove == false && myEgg.x + 22.5 >= nextNest.x + 15 + 5 && myEgg.x + 22.5 <= nextNest.x + nextNest.width - 15)
             document.dispatchEvent(new KeyboardEvent('keydown', { 'key': ' ' }));
@@ -108,8 +101,8 @@ async function doGameOver() {
     dieSound.play()
     await clearInterval(gameInterval);
     myEgg.gameOver = true
-    
-    
+
+
     currentNest = null
     nextNest = null
     myEgg = null
@@ -169,7 +162,7 @@ function egg(x, y) {
                     this.yVelocity -= 0.5
                 } else {
                     this.y -= this.yVelocity
-                    this.yVelocity -= 0.6
+                    this.yVelocity -= 0.5
                     if (this.y + 50 <= nextNest.y + nextNest.height - 5 && this.y + 50 >= nextNest.y + nextNest.height - 20 && this.x + 22.5 >= nextNest.x + 12 + 5 && this.x + 22.5 <= nextNest.x + nextNest.width - 12) {
                         this.jump = false
                         this.isAttach = true

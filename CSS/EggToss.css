@@ -15,10 +15,13 @@ body {
     height: 570px;
     width: 412px;
 }
-
+#footer {
+    bottom: 0;
+}
 #flash{
     position: relative;
     margin: auto;
+    
     height: 555px;
     padding-top: 69px;
     padding-left:5px;
@@ -98,6 +101,6 @@ canvas {
     /*how to allow backgroud to bleed out of the box */
     /* background-size: 100% 100%; */
     
-    outline: 1px solid red;
+    /* outline: 1px solid red; */
     display: none;
 }
