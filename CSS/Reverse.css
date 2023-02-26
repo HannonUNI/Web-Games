@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+#gameArea{
+    position: relative;
+    margin: auto;
+
+    width: 850px;
+    height: 600px;
+    background-color: #ff9d9d;
+    border: 2px solid grey;
+    color:black;
+
+}
+
+#footer {
+    bottom: 0;
+}
