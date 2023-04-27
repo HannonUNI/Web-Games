@@ -13,8 +13,10 @@ var minSpeed = 3
 var probability = 0.6
 var score = 0
 var gameOver = false
-var cheat1bool = false
-var cheat2bool = false
+var calculateTimeBool = false
+var countCurrentNestBool = false
+var autoJumpBool = false
+var cheat
 var cheatBox = document.getElementById("cheatBox")
 var keyboardEvent = document.createEvent('KeyboardEvent');
 jumpSound = document.createElement("audio");
@@ -66,9 +68,9 @@ function updateGameArea() {
     myEgg.update()
     currentNest.update()
     nextNest.update()
-    if (cheat1bool == true)
+    if (calculateTimeBool == true)
         cheat1()
-    if (cheat2bool == true)
+    if (autoJumpBool == true)
         autoJump()
 
     animationFrame = requestAnimationFrame(updateGameArea);
@@ -95,12 +97,17 @@ function autoJump() {
 
         if ((!nextNest.isMoveRight && time > 40 && time < 50) || (nextNest.isMoveRight && time < -50 && time > -60))
             document.dispatchEvent(new KeyboardEvent('keydown', { 'key': ' ' }));
-        else if (nextNest.isMove == false && myEgg.x + 22.5 >= nextNest.x + 15 + 5 && myEgg.x + 22.5 <= nextNest.x + nextNest.width - 15)
+        else if (nextNest.isMove == false && myEgg.x + 22.5 >= nextNest.x + 20 && myEgg.x + 22.5 <= nextNest.x + nextNest.width - 20)
             document.dispatchEvent(new KeyboardEvent('keydown', { 'key': ' ' }));
-        else if (nextNest.isMove == true && currentNest.isMove && nextNest.x + nextNest.width > maxRight && myEgg.x + myEgg.width > maxRight)
-            document.dispatchEvent(new KeyboardEvent('keydown', { 'key': ' ' }));
-
-
+        else if (nextNest.isMove == true && currentNest.isMove && nextNest.x + nextNest.width > maxRight && myEgg.x + myEgg.width > maxRight) {
+            // document.dispatchEvent(new KeyboardEvent('keydown', { 'key': ' ' }));
+            console.log("help i cant do this one");
+            // var d1 = nextNest.x - maxRight
+            // time = (d1 * 2) / nextNest.speed
+            // console.log(time + " time");
+            // console.log(d1 / nextNest.speed + " og time");
+            // if (time < -50 && time > -60) {
+        }
     }
 }
 async function doGameOver() {
@@ -116,13 +123,8 @@ async function doGameOver() {
     minSpeed = 3
     probability = 0.6
     score = 0
-    // cheat1bool = false
-    // cheat2bool = false
     cheatBox = document.getElementById("cheatBox")
     keyboardEvent = document.createEvent('KeyboardEvent');
-
-
-
     overPanel = document.getElementById("gameOver")
     overPanel.style.display = "block"
     first = true
@@ -168,16 +170,25 @@ function egg(x, y) {
                     if (this.y + 50 <= nextNest.y + nextNest.height - 5 && this.y + 50 >= nextNest.y + nextNest.height - 20 && this.x + 22.5 >= nextNest.x + 12 + 5 && this.x + 22.5 <= nextNest.x + nextNest.width - 12) {
                         this.jump = false
                         this.isAttach = true
+                        this.yVelocity = 19
                         currentNest = nextNest
                         nextNest = new nest(newNestStartY, true)
                         nextNest.moveDown = true
-                        this.yVelocity = 19
                         currentNest.moveDown = true
                         document.getElementById("score_value").innerHTML = "Score: " + ++score
 
-                    } else if (this.y > currentNestMaxY) {
-                        gameOver = true
-                        await doGameOver()
+                    } else if (this.y > nextNest.y) {
+                        debugger
+                        if (countCurrentNestBool && this.y > currentNestMaxY - 30 && this.y < currentNestMaxY + 150) {
+                            if (this.x + 22.5 >= currentNest.x + 12 && this.x + 22.5 <= currentNest.x + currentNest.width - 12) {
+                                this.isAttach = true
+                                this.jump = false
+                                this.yVelocity = 19
+                            }
+                        } else if (this.y > currentNestMaxY + 150) {
+                            gameOver = true
+                            await doGameOver()
+                        }
                     }
                 }
             } else {
@@ -265,17 +276,22 @@ document.getElementById("cheats").addEventListener("click", function () {
 // if i hover out of menu then close it
 document.getElementById("cheats_menu").addEventListener("mouseleave", function (e) {
     if (document.getElementById("cheat1").checked) {
-        cheat1bool = true
+        calculateTimeBool = true
         document.getElementById("cheatBox").style.display = "block"
     } else {
-        cheat1bool = false
+        calculateTimeBool = false
         document.getElementById("cheatBox").style.display = "none"
     }
 
     if (document.getElementById("cheat2").checked)
-        cheat2bool = true
+        autoJumpBool = true
     else
-        cheat2bool = false
+        autoJumpBool = false
+
+    if (document.getElementById("cheat3").checked)
+        countCurrentNestBool = true
+    else
+        countCurrentNestBool = false
 
     openHelpBool = !openHelpBool
     document.getElementById("cheats_menu").style.display = "none"

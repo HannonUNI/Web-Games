@@ -41,7 +41,6 @@ body {
 }
 
 canvas {
-    /* border:1px solid #d3d3d3; */
     background-image: url('../media/egg toss/jungle.png');
     background-size: 100% 100%;
 }
@@ -50,13 +49,11 @@ canvas {
     top: 42px;
     height: 26px;
     width: 400px;
-    /* outline: 1px solid #ff0000; */
     background-color: #ece9d8;
     user-select: none;
     font-weight: 500;
 }
 .menuItem{
-    /* width: 45px; */
     height: 23px;
     padding-left: 7px;
     padding-right: 7px;
@@ -71,8 +68,8 @@ canvas {
     position: absolute;
     top: 70px;
     left: 6px;
-    height: 50px;
-    width: 170px;
+    height: 75px;
+    width: 180px;
     background-color: white;
     outline: 1px solid #a9a59c;
     user-select: none;
